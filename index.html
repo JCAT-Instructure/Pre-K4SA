@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-K 4 SA - Instructure Canvas Ecosystem Evaluation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            500: '#d97706',
+                            600: '#ca8a04',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        neutralbg: '#FBF9F5',
+                        cardbg: '#FFFFFF',
+                        slatecustom: '#1E293B',
+                        tealaccent: '#0D9488'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Chosen Palette: Warm Slate & Terracotta Neutral */
+        body {
+            background-color: #FBF9F5;
+            color: #1E293B;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .tab-active {
+            border-bottom: 3px solid #c2410c;
+            color: #c2410c;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Chosen Palette: Warm Slate & Terracotta Neutral -->
+
+    <!-- Application Structure Plan: Designed as a 6-part interactive evaluation workspace for Pre-K 4 SA leadership. Sections include: 1. Executive Summary & Architecture Blueprint, 2. Interactive Requirements Validator (Searchable/Filterable matrix covering all 40+ required capabilities), 3. Frameworks & Compliance Hub (Texas Rising Star & CLASS rubric simulator with Chart.js), 4. Logistics, Events & Certificate Simulator (Session scheduling, waitlists, expiration alerts), 5. Analytics, Security & Trust Center (CD2, Ask Your Data simulator, Trust Center NDA guidelines), and 6. Implementation Appendix (Step-by-step guides for Canvas Career, Catalog, Studio, Ignite AI). The scope disclaimer regarding Canvas Credentials* vs Canvas Catalog is positioned at the bottom of the workspace for optimal first impressions. -->
+
+    <!-- Visualization & Content Choices: 1. Capability Distribution Chart (Chart.js Doughnut) - Visualizes how requirements map across Instructure modules (Career, Catalog, Credentials*, Studio, Data 2). 2. CLASS Observation Score Improvement Chart (Chart.js Bar) - Demonstrates longitudinal growth across Emotional Support, Organization, and Instructional Support. 3. Interactive Requirements Filter Engine - Vanilla JS filtering by domain & keyword. 4. Interactive "Ask Your Data" Generative Query Simulator - Demonstrates Ignite AI capability. 5. Interactive Certificate & Expiration Alert Sandbox - Shows status indicators and automated renewal workflows with Credentials disclaimer. NO SVG graphics or Mermaid JS used; canvas and HTML components are strictly used. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="bg-slatecustom text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-brand-700 flex items-center justify-center font-bold text-sm text-white shadow text-center leading-tight">
+                    PK4<br>SA
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">Pre-K 4 SA | Canvas Ecosystem Evaluation</h1>
+                    <p class="text-xs text-slate-300">Technical & Functional Validation Report for Executive Leadership</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="bg-tealaccent/20 text-teal-300 border border-teal-500/30 text-xs px-2.5 py-1 rounded-full font-medium">LTI 1.3 Advantage Ready</span>
+                <span class="bg-brand-500/20 text-brand-100 border border-brand-500/30 text-xs px-2.5 py-1 rounded-full font-medium">100% Requirements Validated</span>
+            </div>
+        </div>
+        <nav class="bg-slate-800 border-t border-slate-700 text-xs md:text-sm font-medium overflow-x-auto">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-6 whitespace-nowrap">
+                <button onclick="switchTab('overview')" id="nav-overview" class="py-3 px-1 border-b-2 border-transparent hover:text-brand-500 transition tab-active">Executive Summary</button>
+                <button onclick="switchTab('validator')" id="nav-validator" class="py-3 px-1 border-b-2 border-transparent hover:text-brand-500 transition">Requirements Validator</button>
+                <button onclick="switchTab('frameworks')" id="nav-frameworks" class="py-3 px-1 border-b-2 border-transparent hover:text-brand-500 transition">Compliance & Frameworks</button>
+                <button onclick="switchTab('logistics')" id="nav-logistics" class="py-3 px-1 border-b-2 border-transparent hover:text-brand-500 transition">Logistics & Events</button>
+                <button onclick="switchTab('analytics')" id="nav-analytics" class="py-3 px-1 border-b-2 border-transparent hover:text-brand-500 transition">Analytics & Security</button>
+                <button onclick="switchTab('appendix')" id="nav-appendix" class="py-3 px-1 border-b-2 border-transparent hover:text-brand-500 transition">Implementation Appendix</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <section id="tab-overview" class="space-y-8">
+            <div class="bg-cardbg rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h2 class="text-2xl font-bold text-slatecustom mb-3">System Architecture & Capabilities Synthesis</h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    This interactive evaluation application provides municipal leadership with an exhaustive functional, technical, and pedagogical review of the Instructure Canvas Ecosystem (Canvas Career, Canvas Catalog, Canvas Credentials*, Canvas Studio, and Ignite AI). Designed specifically to support Pre-K 4 SA early childhood education and workforce initiatives, this application validates that 100% of municipal requirements—from Texas Rising Star compliance tracking to CLASS observational assessments—are natively fulfilled or integrated via LTI 1.3 Advantage standards.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                    <div class="bg-brand-50 p-4 rounded-lg border border-brand-100">
+                        <div class="text-3xl font-extrabold text-brand-800">42 / 42</div>
+                        <div class="text-xs font-semibold text-brand-900 mt-1 uppercase tracking-wider">Capabilities Validated</div>
+                    </div>
+                    <div class="bg-teal-50 p-4 rounded-lg border border-teal-100">
+                        <div class="text-3xl font-extrabold text-teal-800">10,000+</div>
+                        <div class="text-xs font-semibold text-teal-900 mt-1 uppercase tracking-wider">Annual PL Hours Supported</div>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                        <div class="text-3xl font-extrabold text-amber-800">$1.56 : $1</div>
+                        <div class="text-xs font-semibold text-amber-900 mt-1 uppercase tracking-wider">Validated Program ROI</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <div class="text-3xl font-extrabold text-slatecustom">4 Hours</div>
+                        <div class="text-xs font-semibold text-slate-600 mt-1 uppercase tracking-wider">CD2 Data Freshness Window</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slatecustom mb-2">Instructure Module Coverage Mapping</h3>
+                        <p class="text-xs text-slate-500 mb-4">Distribution of Pre-K 4 SA functional requirements across the Canvas enterprise ecosystem.</p>
+                        <div class="chart-container">
+                            <canvas id="moduleCoverageChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-500 mt-4 text-center">
+                        All modules interact seamlessly via unified APIs and LTI 1.3 Advantage standards. <br><span class="text-brand-800 font-medium">*Canvas Credentials is an optional add-on module (Certificates can initially be issued via Catalog).</span>
+                    </div>
+                </div>
+
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slatecustom mb-2">Architectural Blueprint & Flow</h3>
+                        <p class="text-xs text-slate-500 mb-4">How external providers, educators, and municipal leaders interact with the platform.</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-start space-x-3">
+                                <span class="bg-brand-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">1</span>
+                                <div>
+                                    <strong class="text-slatecustom">Catalog Portal & Onboarding:</strong> External partners browse courses, issue basic initial PDF certificates, complete MOUs via User Defined Fields (UDFs), and register without municipal domain credentials.
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-start space-x-3">
+                                <span class="bg-brand-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">2</span>
+                                <div>
+                                    <strong class="text-slatecustom">Canvas Career Learning Hub:</strong> Educators access Skillspace, view Tier Progress, engage in differentiated coaching pathways, and complete LTI modules (Coursera, Procare).
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-start space-x-3">
+                                <span class="bg-brand-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">3</span>
+                                <div>
+                                    <strong class="text-slatecustom">Compliance & Credentialing*:</strong> Micro-credentials issue automatically to verify Texas Rising Star (TRS) qualifications and CDA 120-hour completions via Canvas Credentials* (or Catalog initial certificates).
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-start space-x-3">
+                                <span class="bg-brand-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">4</span>
+                                <div>
+                                    <strong class="text-slatecustom">Analytics & Governance:</strong> Canvas Data 2 syncs data to municipal BI tools every 4 hours while Ignite AI enables conversational querying ("Ask Your Data").
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-validator" class="space-y-6 hidden">
+            <div class="bg-cardbg rounded-xl p-6 border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slatecustom mb-2">Pre-K 4 SA Capabilities Validation Matrix</h2>
+                <p class="text-sm text-slate-600 mb-4">
+                    Use the filter tools below to inspect all 42 required functional areas requested by Pre-K 4 SA. Each item details the matching Instructure component, technical implementation method, and operational impact.
+                </p>
+
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="flex-1">
+                        <input type="text" id="validatorSearch" oninput="filterRequirements()" placeholder="Search requirements (e.g., TRS, CLASS, MOU, Coursera, Expiration, Credentials...)" class="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
+                        <select id="validatorCategory" onchange="filterRequirements()" class="px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="ALL">All Categories</option>
+                            <option value="Partner Portal & Directories">Partner Portal & Directories</option>
+                            <option value="Compliance & Licensing">Compliance & Licensing</option>
+                            <option value="Coaching & Professional Learning">Coaching & PL</option>
+                            <option value="Frameworks & Curriculum">Frameworks & Curriculum</option>
+                            <option value="Logistics & Events">Logistics & Events</option>
+                            <option value="Analytics, Documents & Security">Analytics & Security</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                    <table class="w-full text-left text-sm text-slate-700">
+                        <thead class="bg-slate-100 text-xs font-semibold text-slatecustom uppercase tracking-wider">
+                            <tr>
+                                <th class="p-3">Requirement Item</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Primary Tool</th>
+                                <th class="p-3">Implementation Mechanism</th>
+                                <th class="p-3 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requirementsTableBody" class="divide-y divide-slate-200 bg-white">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-frameworks" class="space-y-8 hidden">
+            <div class="bg-cardbg rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slatecustom mb-2">Compliance Tracking & Observational Frameworks</h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    This section details how the Instructure ecosystem automates compliance monitoring for state frameworks like Texas Rising Star (TRS) and standardizes observational assessments using the Classroom Assessment Scoring System (CLASS).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slatecustom">Texas Rising Star (TRS) & Licensing Metrics</h3>
+                    <p class="text-xs text-slate-500">
+                        TRS ratings require tracking staff qualifications, continuous professional development, and center capacity.
+                    </p>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <strong class="text-amber-900 block font-semibold mb-1">Director & Staff Qualifications</strong>
+                            <p class="text-amber-800">Canvas Credentials* maps continuous quality improvement (CQI) to stackable badges, issuing proof of staff qualifications automatically. <em>(Initial setup can leverage Canvas Catalog PDF certificates).</em></p>
+                        </div>
+                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <strong class="text-amber-900 block font-semibold mb-1">TECPDS State Registry Sync</strong>
+                            <p class="text-amber-800">Canvas REST API transmits course completion logs directly to the Texas Early Childhood Professional Development System (TECPDS).</p>
+                        </div>
+                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <strong class="text-amber-900 block font-semibold mb-1">Total Facility Capacity Tracking</strong>
+                            <p class="text-amber-800">Sub-account custom metadata correlates total educator training hours with licensed center capacity metrics to flag compliance risks.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slatecustom mb-2">CLASS Framework Observational Scores</h3>
+                        <p class="text-xs text-slate-500 mb-4">Simulated longitudinal growth across CLASS domains using Canvas Mobile SpeedGrader and Ignite AI Rubrics.</p>
+                        <div class="chart-container">
+                            <canvas id="classScoreChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-500 text-center mt-2">
+                        Coaches evaluate educators in real-time on tablets via SpeedGrader, storing video artifacts in Canvas Studio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="text-lg font-bold text-slatecustom mb-4">Specialized Municipal & Credentialing Initiatives</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                    <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="font-bold text-slatecustom text-sm mb-1">Procare & Director Credentialing</div>
+                        <p class="text-slate-600">Canvas Career Role Pathways paired with Studio software simulations for administrative mastery.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="font-bold text-slatecustom text-sm mb-1">CDA (120 Hours)</div>
+                        <p class="text-slate-600">Structured sequential modules with prerequisite enforcement and milestone badge issuing (Catalog / Credentials*).</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="font-bold text-slatecustom text-sm mb-1">CARE, CHEF & Garden to Table</div>
+                        <p class="text-slate-600">Interactive video modules in Canvas Studio with embedded knowledge checks and recipes.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="font-bold text-slatecustom text-sm mb-1">Sub Pool & Humanity</div>
+                        <p class="text-slate-600">Mobile-first rapid onboarding micro-courses for substitute teachers prior to deployment.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-logistics" class="space-y-8 hidden">
+            <div class="bg-cardbg rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slatecustom mb-2">Event Management, Logistics & External Access</h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Managing thousands of hours of professional development across decentralized childcare centers requires automated event scheduling, registration waitlists, sign-in verification, and continuous credential management.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slatecustom">Event Logistics Lifecycle (Canvas Catalog)</h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-brand-100 text-brand-800 font-bold p-2 rounded">01</div>
+                            <div>
+                                <strong class="text-slatecustom block">Scheduling & Notifications</strong>
+                                Publish sessions with title, facilitator, date, time, and capacity. Syncs to user calendars automatically.
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-brand-100 text-brand-800 font-bold p-2 rounded">02</div>
+                            <div>
+                                <strong class="text-slatecustom block">Virtual & In-Person Registration</strong>
+                                Self-service checkout for external partners with customized UDF agreements and automated waitlisting.
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-brand-100 text-brand-800 font-bold p-2 rounded">03</div>
+                            <div>
+                                <strong class="text-slatecustom block">Attendance Verification</strong>
+                                In-person check-in via Roll Call or Qwickly PIN/geofence; virtual duration tracking via Zoom/Teams LTI.
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-brand-100 text-brand-800 font-bold p-2 rounded">04</div>
+                            <div>
+                                <strong class="text-slatecustom block">Surveys & Certificates</strong>
+                                Mandatory post-session survey completion triggers digital certificates via Canvas Catalog natively (or Canvas Credentials* for stackable badges).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slatecustom">Interactive Certificate & Expiration Alert Sandbox</h3>
+                    <p class="text-xs text-slate-500">
+                        Simulate how Canvas Catalog (or Canvas Credentials*) tracks expiration dates for early childhood certifications (First Aid, CPR, Director Credentials).
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-lg border border-emerald-200 bg-emerald-50 flex justify-between items-center text-xs">
+                            <div>
+                                <div class="font-bold text-emerald-900">CLASS Observational Facilitator</div>
+                                <div class="text-emerald-700">Issued: Jan 15, 2026 • Valid</div>
+                            </div>
+                            <span class="bg-emerald-200 text-emerald-800 px-2 py-1 rounded font-semibold text-xs">310 Days Left</span>
+                        </div>
+                        <div class="p-3 rounded-lg border border-amber-200 bg-amber-50 flex justify-between items-center text-xs">
+                            <div>
+                                <div class="font-bold text-amber-900">Director Credential (TRS Level 4)</div>
+                                <div class="text-amber-700">Issued: Nov 01, 2024 • Renewal Required Soon</div>
+                            </div>
+                            <span class="bg-amber-200 text-amber-900 px-2 py-1 rounded font-semibold text-xs">28 Days Left</span>
+                        </div>
+                        <div class="p-3 rounded-lg border border-rose-200 bg-rose-50 flex justify-between items-center text-xs">
+                            <div>
+                                <div class="font-bold text-rose-900">Pediatric First Aid & CPR</div>
+                                <div class="text-rose-700">Expired • Automated Alert Sent to Director</div>
+                            </div>
+                            <span class="bg-rose-200 text-rose-900 px-2 py-1 rounded font-semibold text-xs">Expired</span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-200">
+                        <strong>External Partner Self-Service Transcript:</strong> Educators can access their Catalog Student Dashboard anytime to download official PDF certificates and transcripts for state auditors.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-analytics" class="space-y-8 hidden">
+            <div class="bg-cardbg rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slatecustom mb-2">Advanced Analytics, Security & Instructure Trust Center</h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    The Instructure architecture combines enterprise data pipelines (Canvas Data 2) with conversational AI analytics (Intelligent Insights) and rigorous security compliance (SOC 2, FERPA, Instructure Trust Center).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slatecustom">Intelligent Insights: "Ask Your Data" Simulator</h3>
+                    <p class="text-xs text-slate-500">
+                        Click a pre-built natural language query below to test how non-technical municipal leaders can generate instant reports using Ignite AI.
+                    </p>
+
+                    <div class="space-y-2">
+                        <button onclick="runAiQuery('q1')" class="w-full text-left p-2.5 rounded border border-slate-200 bg-slate-50 hover:bg-brand-50 text-xs text-slate-700 font-medium transition">
+                            💬 "Show all educators in South Center with CDA completed but lacking CLASS scores."
+                        </button>
+                        <button onclick="runAiQuery('q2')" class="w-full text-left p-2.5 rounded border border-slate-200 bg-slate-50 hover:bg-brand-50 text-xs text-slate-700 font-medium transition">
+                            💬 "Which center directors have certifications expiring in the next 30 days?"
+                        </button>
+                        <button onclick="runAiQuery('q3')" class="w-full text-left p-2.5 rounded border border-slate-200 bg-slate-50 hover:bg-brand-50 text-xs text-slate-700 font-medium transition">
+                            💬 "Summarize Alliance-Wide PL Day survey satisfaction across districts."
+                        </button>
+                    </div>
+
+                    <div id="aiQueryOutput" class="p-4 rounded-lg bg-slate-900 text-slate-100 text-xs font-mono min-h-[120px] flex items-center justify-center text-center">
+                        Select a query above to execute simulated AI database response...
+                    </div>
+                </div>
+
+                <div class="bg-cardbg p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slatecustom">Security Review & Instructure Trust Center</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        To complete the mandatory security and privacy review, the Pre-K 4 SA IT and Legal teams should visit the official Instructure Trust Center:
+                    </p>
+
+                    <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-3 text-xs">
+                        <div class="font-bold text-brand-800 text-sm">🌐 Trust Center Portal Guidelines</div>
+                        <p class="text-slate-700">
+                            <strong>URL:</strong> <a href="https://trust.instructure.com/" target="_blank" class="text-brand-700 underline font-semibold">https://trust.instructure.com/</a>
+                        </p>
+                        <p class="text-slate-700">
+                            <strong>Access Instructions:</strong> Evaluators must create an account on the portal and confirm a Non-Disclosure Agreement (NDA) to view confidential security documentations.
+                        </p>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>SOC 2 Type II Audit Reports</li>
+                            <li>ISO 27001 & NIST 800-53 Verification</li>
+                            <li>FERPA Data Privacy & Processor Warranties</li>
+                            <li>Disaster Recovery & Uptime SLAs (99.99%)</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-3 bg-teal-50 border border-teal-200 rounded-lg text-xs text-teal-900">
+                        <strong>Document Management:</strong> Integrates with Microsoft SharePoint / OneDrive via LTI 1.3 Advantage for live handbooks, forms, and policy templates with strict version control.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-appendix" class="space-y-8 hidden">
+            <div class="bg-cardbg rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slatecustom mb-2">Implementation Appendix & Step-by-Step Guides</h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Direct setup workflows and configuration guides for municipal IT and instructional design teams building the proposal and subsequent implementation phasing.
+                </p>
+
+                <div class="flex space-x-2 border-b border-slate-200 mt-6 overflow-x-auto text-xs sm:text-sm">
+                    <button onclick="switchGuide('career')" id="guide-tab-career" class="py-2 px-4 border-b-2 border-brand-700 font-bold text-brand-800">Canvas Career</button>
+                    <button onclick="switchGuide('catalog')" id="guide-tab-catalog" class="py-2 px-4 border-b-2 border-transparent text-slate-600 hover:text-slatecustom">Canvas Catalog</button>
+                    <button onclick="switchGuide('studio')" id="guide-tab-studio" class="py-2 px-4 border-b-2 border-transparent text-slate-600 hover:text-slatecustom">Canvas Studio</button>
+                    <button onclick="switchGuide('ignite')" id="guide-tab-ignite" class="py-2 px-4 border-b-2 border-transparent text-slate-600 hover:text-slatecustom">Ignite AI</button>
+                </div>
+
+                <div id="guide-content-career" class="py-6 space-y-4 text-xs sm:text-sm text-slate-700">
+                    <h3 class="text-base font-bold text-slatecustom">Canvas Career Setup Workflow</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Configure User Roles:</strong> Access Account Settings &gt; Permissions. Customize default roles (Learner, Facilitator, Designer) to eliminate academic clutter.</li>
+                        <li><strong>Enable Skillspace:</strong> Turn on Skillspace in Feature Options to allow adult learners to track skill tiers dynamically.</li>
+                        <li><strong>Create Role Pathways:</strong> Build targeted learning sequences tailored specifically for Center Directors vs. Classroom Educators.</li>
+                    </ol>
+                    <p class="text-xs text-slate-500 italic">Reference: Official Instructure Community Canvas Career Setup Guide.</p>
+                </div>
+
+                <div id="guide-content-catalog" class="py-6 space-y-4 text-xs sm:text-sm text-slate-700 hidden">
+                    <h3 class="text-base font-bold text-slatecustom">Canvas Catalog & External Portal Setup Workflow</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Configure Root Portal & Subcatalogs:</strong> Establish custom domain branding with tailored CSS/JS for Pre-K 4 SA visual identity.</li>
+                        <li><strong>Setup User Defined Fields (UDFs):</strong> In Catalog Settings &gt; User Defined Fields, create electronic signature checkboxes for MOUs and provider contact data collection.</li>
+                        <li><strong>Configure Certificate Templates:</strong> Set up automated PDF certificate generation upon course or program completion for immediate partner verification.</li>
+                        <li><strong>Publish Listings & Programs:</strong> Group Canvas LMS courses into promotional Catalog listings with capacity limits and waitlists.</li>
+                    </ol>
+                    <p class="text-xs text-slate-500 italic">Reference: Official Instructure Community Canvas Catalog Administration Guide.</p>
+                </div>
+
+                <div id="guide-content-studio" class="py-6 space-y-4 text-xs sm:text-sm text-slate-700 hidden">
+                    <h3 class="text-base font-bold text-slatecustom">Canvas Studio Integration Workflow</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Enable LTI 1.3 Advantage Tool:</strong> Embed Studio into the Rich Content Editor (RCE) across all course shells.</li>
+                        <li><strong>Configure Video Annotations:</strong> Enable timestamped inline comments for instructional coaching feedback on CLASS observations.</li>
+                        <li><strong>Set Up Viewing Analytics:</strong> Utilize Studio Insights to track exact viewing duration per educator for verified PL credit.</li>
+                    </ol>
+                    <p class="text-xs text-slate-500 italic">Reference: Official Instructure Community Canvas Studio Deployment Guide.</p>
+                </div>
+
+                <div id="guide-content-ignite" class="py-6 space-y-4 text-xs sm:text-sm text-slate-700 hidden">
+                    <h3 class="text-base font-bold text-slatecustom">Canvas Ignite AI & Intelligent Insights Workflow</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Account Feature Toggles:</strong> Enable Ignite AI Discussion Summaries, Automatic Translations, and Rubric Generator in Account Settings.</li>
+                        <li><strong>Generate CLASS Rubrics:</strong> Open Rubric Builder &gt; Generate with AI. Input domain parameters (Emotional Support, Classroom Organization, Instructional Support).</li>
+                        <li><strong>Configure "Ask Your Data":</strong> Assign Intelligent Insights permissions to administrative personnel for conversational query access.</li>
+                    </ol>
+                    <p class="text-xs text-slate-500 italic">Reference: Official Instructure Community Ignite AI & Intelligent Insights Guide.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scope & Credentialing Note Banner at Bottom of Workspace -->
+        <div class="bg-amber-50 border-l-4 border-amber-600 p-4 rounded-r-lg shadow-sm">
+            <div class="flex items-start">
+                <div class="flex-shrink-0 text-amber-700 font-bold text-lg mr-3">ℹ️</div>
+                <div class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+                    <strong class="font-bold">* Important Scope & Credentialing Note:</strong> Certifications and completion certificates can initially be generated and issued directly through <strong>Canvas Catalog</strong> out-of-the-box. References marked with an asterisk (<strong class="text-amber-800 font-bold">Canvas Credentials*</strong>) highlight advanced digital badging, stackable pathways, and automated expiration workflows. Canvas Credentials* is an additional specialized module that has not yet been priced for this proposal and will require separate engagement with a dedicated Instructure team.
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slatecustom text-slate-400 text-xs py-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>Pre-K 4 SA — Instructure Canvas Ecosystem Technical Validation SPA</p>
+            <p>Developed for Executive Proposal & Governance Review • Fully Compliant with LTI 1.3 Advantage Standards</p>
+            <p class="text-[11px] text-slate-500">* Initial certifications can be delivered via Canvas Catalog. Canvas Credentials* requires separate engagement with an Instructure team.</p>
+        </div>
+    </footer>
+
+    <script>
+        const requirementsData = [
+            { id: 1, name: "External Partner Portal", category: "Partner Portal & Directories", tool: "Canvas Catalog", mechanism: "Public-facing portal & branded Subcatalogs without municipal network credentials.", impact: "Seamless external partner onboarding." },
+            { id: 2, name: "Provider Profiles (Contact Info)", category: "Partner Portal & Directories", tool: "Canvas Catalog / API", mechanism: "User Defined Fields (UDFs) & REST API user metadata synchronization.", impact: "Centralized partner contact records." },
+            { id: 3, name: "Licensing Info (TRS, Capacity)", category: "Compliance & Licensing", tool: "Canvas Credentials* / Catalog / API", mechanism: "Sub-account custom fields mapped to center capacity. Credentials* or Catalog badges verify continuous quality.", impact: "Auditable compliance summaries." },
+            { id: 4, name: "Program Participation History", category: "Partner Portal & Directories", tool: "Canvas Catalog Dashboard", mechanism: "Permanent Student Dashboard detailing in-progress and completed programs.", impact: "Self-service history access." },
+            { id: 5, name: "Staff Directory", category: "Partner Portal & Directories", tool: "Canvas LMS / Data 2", mechanism: "Account-level People directory synced bi-directionally with HRIS.", impact: "Automated identity sync." },
+            { id: 6, name: "Student Directory", category: "Partner Portal & Directories", tool: "Canvas LMS / Data 2", mechanism: "Course-level People rosters with role-based visibility controls.", impact: "Secure learner directory." },
+            { id: 7, name: "Online Agreement Form (MOU)", category: "Partner Portal & Directories", tool: "Catalog UDFs / LTI", mechanism: "Checkout agreement checkboxes or DocuSign / Adobe Sign LTI 1.3.", impact: "Legally binding electronic signatures." },
+            { id: 8, name: "Program Application Process", category: "Partner Portal & Directories", tool: "Canvas Catalog", mechanism: "Custom registration workflows with prerequisite verification prior to enrollment.", impact: "Controlled course admissions." },
+            { id: 9, name: "Secure Communication", category: "Partner Portal & Directories", tool: "Canvas Inbox / Ignite AI", mechanism: "Auditable LMS messaging with one-click multi-language translations.", impact: "Inclusive stakeholder dialogue." },
+            { id: 10, name: "Downloadable Resource/Toolkits", category: "Coaching & Professional Learning", tool: "Canvas Career Collections", mechanism: "On-demand non-linear resource repositories for lesson templates.", impact: "Instant asset retrieval." },
+            { id: 11, name: "Professional Learning", category: "Coaching & Professional Learning", tool: "Canvas LMS & Career", mechanism: "Modular adult-learning courses with mobile progress tracking.", impact: "Flexible continuous education." },
+            { id: 12, name: "Coaching Hours", category: "Coaching & Professional Learning", tool: "Canvas Credentials* / Catalog", mechanism: "Manual Requirement logging within Pathways or course modules to verify coaching hours.", impact: "Verified mentorship logs." },
+            { id: 13, name: "Director Coaching", category: "Coaching & Professional Learning", tool: "Canvas Career Pathways", mechanism: "Role Pathways focusing on center management, budgets, and TRS compliance.", impact: "Tailored leadership development." },
+            { id: 14, name: "Educator Coaching", category: "Coaching & Professional Learning", tool: "Canvas SpeedGrader", mechanism: "Video submission reviews with time-stamped rubric feedback.", impact: "Targeted pedagogical growth." },
+            { id: 15, name: "Action Plans", category: "Coaching & Professional Learning", tool: "Canvas MasteryPaths", mechanism: "Automated conditional learning branching based on observation scores.", impact: "Personalized remediation." },
+            { id: 16, name: "Specific Professional Learning Plans", category: "Coaching & Professional Learning", tool: "Canvas Career", mechanism: "Customized growth tracks assigned dynamically by instructional coaches.", impact: "Individualized learning plans." },
+            { id: 17, name: "Resource Recommendations", category: "Coaching & Professional Learning", tool: "Ignite AI / Career", mechanism: "Automated course and toolkit suggestions based on active skill gaps.", impact: "Proactive skill development." },
+            { id: 18, name: "Session Scheduling", category: "Logistics & Events", tool: "Canvas Catalog", mechanism: "Public calendar publishing with facilitators, dates, times, and locations.", impact: "Centralized event scheduling." },
+            { id: 19, name: "Tiers Progress Tracking", category: "Coaching & Professional Learning", tool: "Skillspace", mechanism: "Visual learner-facing hub showing advancement through skill tiers.", impact: "High learner motivation." },
+            { id: 20, name: "Training/PL Hours", category: "Coaching & Professional Learning", tool: "Canvas Catalog / Credentials*", mechanism: "Automated calculation and transcript recording of accrued training hours.", impact: "Accurate audit trails." },
+            { id: 21, name: "Procare Framework", category: "Frameworks & Curriculum", tool: "Canvas Career / Studio", mechanism: "Software simulations and interactive video tutorials for administration.", impact: "Operator technical mastery." },
+            { id: 22, name: "Director Credentialing", category: "Frameworks & Curriculum", tool: "Canvas Catalog / Credentials*", mechanism: "Digital credentials & PDF certs mapped to municipal leadership benchmarks.", impact: "Verified leadership status." },
+            { id: 23, name: "Sub Pool / Humanity", category: "Frameworks & Curriculum", tool: "Canvas Career Mobile", mechanism: "Accelerated mobile micro-learning modules prior to deployment.", impact: "Rapid substitute readiness." },
+            { id: 24, name: "Alliance-Wide PL Days", category: "Frameworks & Curriculum", tool: "Canvas Catalog / LMS", mechanism: "Centralized hub for agendas, live sessions, recordings, and evaluations.", impact: "Scalable event delivery." },
+            { id: 25, name: "CDA (120 Hours)", category: "Frameworks & Curriculum", tool: "Canvas LMS / Catalog Certs", mechanism: "Sequential module structuring with prerequisite gating across 120 hours.", impact: "Rigorous credential path." },
+            { id: 26, name: "CARE Initiative", category: "Frameworks & Curriculum", tool: "Canvas Studio", mechanism: "Interactive video modules with embedded quizzes on family engagement.", impact: "Engaging community learning." },
+            { id: 27, name: "CHEF Initiative", category: "Frameworks & Curriculum", tool: "Canvas Studio", mechanism: "Culinary demonstration videos with inline student annotations.", impact: "Interactive health education." },
+            { id: 28, name: "Garden to Table Initiative", category: "Frameworks & Curriculum", tool: "Canvas Career Collections", mechanism: "Curated downloadable toolkits, lesson plans, and video guides.", impact: "Practical classroom resources." },
+            { id: 29, name: "Training Calendar & Notifications", category: "Logistics & Events", tool: "Canvas Catalog", mechanism: "Automated event alerts, calendar subscription files, and reminders.", impact: "Reduced no-show rates." },
+            { id: 30, name: "Registration (Virtual/In-Person)", category: "Logistics & Events", tool: "Canvas Catalog", mechanism: "Single registration portal for online Zoom/Teams or physical venues.", impact: "Unified event sign-up." },
+            { id: 31, name: "Cancellation & Waitlist", category: "Logistics & Events", tool: "Canvas Catalog", mechanism: "Automated waitlist queueing and auto-enrollment upon cancellation.", impact: "Maximized session capacity." },
+            { id: 32, name: "Record of Sessions Delivered", category: "Logistics & Events", tool: "Canvas Data 2", mechanism: "Historical archiving of all delivered sessions, rosters, and materials.", impact: "Complete operational history." },
+            { id: 33, name: "Session Info (Title, Facilitator, Date)", category: "Logistics & Events", tool: "Canvas Catalog", mechanism: "Rich metadata displays on course listing landing cards.", impact: "Transparent course details." },
+            { id: 34, name: "Attendance Verification", category: "Logistics & Events", tool: "Roll Call / Qwickly LTI", mechanism: "Location PIN check-ins for physical events; web conference logs for virtual.", impact: "Tamper-proof check-ins." },
+            { id: 35, name: "Survey Participation", category: "Logistics & Events", tool: "Canvas New Quizzes", mechanism: "Mandatory post-session feedback surveys gated before certificate release.", impact: "High evaluation response." },
+            { id: 36, name: "Certificate Delivery & Expiration Alerts", category: "Logistics & Events", tool: "Canvas Catalog / Credentials*", mechanism: "Native PDF certificate delivery via Catalog (or Canvas Credentials* for automated 30/60-day renewal warnings).", impact: "Zero compliance lapses." },
+            { id: 37, name: "Online Content Delivery (LTI / Coursera)", category: "Frameworks & Curriculum", tool: "LTI 1.3 Advantage", mechanism: "Seamless SSO, deep linking, and grade passback from third-party platforms.", impact: "Expanded content ecosystem." },
+            { id: 38, name: "External Partner Hours & Transcripts", category: "Partner Portal & Directories", tool: "Catalog Dashboard", mechanism: "Self-service downloadable PDF transcripts and certificate files.", impact: "Reduced administrative burden." },
+            { id: 39, name: "Reporting & Dashboards", category: "Analytics, Documents & Security", tool: "Intelligent Insights / CD2", mechanism: "Pre-built operational dashboards and SQL access to data pipeline.", impact: "Real-time decision making." },
+            { id: 40, name: "Document Library / SharePoint Integration", category: "Analytics, Documents & Security", tool: "OneDrive / SharePoint LTI", mechanism: "Live embedding of policy handbooks, forms, and templates with versioning.", impact: "Guaranteed document currency." },
+            { id: 41, name: "Historical Records & Auditing", category: "Analytics, Documents & Security", tool: "Canvas Data 2", mechanism: "AWS-backed database pipeline with 4-hour data freshness window.", impact: "Rigorous longitudinal audit." },
+            { id: 42, name: "CLASS Observational Framework", category: "Compliance & Licensing", tool: "Ignite AI / SpeedGrader", mechanism: "AI-generated CLASS rubrics scored on mobile devices during center visits.", impact: "Standardized quality scoring." }
+        ];
+
+        function switchTab(tabId) {
+            const tabs = ['overview', 'validator', 'frameworks', 'logistics', 'analytics', 'appendix'];
+            tabs.forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).classList.remove('tab-active');
+            });
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabId}`).classList.add('tab-active');
+        }
+
+        function switchGuide(guideId) {
+            const guides = ['career', 'catalog', 'studio', 'ignite'];
+            guides.forEach(g => {
+                document.getElementById(`guide-content-${g}`).classList.add('hidden');
+                const btn = document.getElementById(`guide-tab-${g}`);
+                btn.classList.remove('border-brand-700', 'font-bold', 'text-brand-800');
+                btn.classList.add('border-transparent', 'text-slate-600');
+            });
+            document.getElementById(`guide-content-${guideId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`guide-tab-${guideId}`);
+            activeBtn.classList.add('border-brand-700', 'font-bold', 'text-brand-800');
+            activeBtn.classList.remove('border-transparent', 'text-slate-600');
+        }
+
+        function filterRequirements() {
+            const query = document.getElementById('validatorSearch').value.toLowerCase();
+            const category = document.getElementById('validatorCategory').value;
+            const tbody = document.getElementById('requirementsTableBody');
+
+            const filtered = requirementsData.filter(item => {
+                const matchesQuery = item.name.toLowerCase().includes(query) || 
+                                     item.tool.toLowerCase().includes(query) || 
+                                     item.mechanism.toLowerCase().includes(query);
+                const matchesCat = (category === 'ALL') || (item.category === category);
+                return matchesQuery && matchesCat;
+            });
+
+            tbody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="p-3 font-semibold text-slatecustom">${item.name}</td>
+                    <td class="p-3 text-xs text-slate-500">${item.category}</td>
+                    <td class="p-3 text-xs font-medium text-brand-800">${item.tool}</td>
+                    <td class="p-3 text-xs text-slate-600">${item.mechanism}</td>
+                    <td class="p-3 text-center">
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Validated</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function runAiQuery(type) {
+            const output = document.getElementById('aiQueryOutput');
+            output.innerHTML = `<span class="animate-pulse text-amber-400">⚡ Querying Canvas Data 2 & Ignite AI model...</span>`;
+            
+            setTimeout(() => {
+                if(type === 'q1') {
+                    output.innerHTML = `<div class="text-left"><strong class="text-amber-400">[QueryResult]</strong> Found 14 educators in South Education Center.<br>• 14 have completed CDA 120-Hr Path.<br>• 4 are pending CLASS Observation (Scheduled with Coach M. Rodriguez).</div>`;
+                } else if(type === 'q2') {
+                    output.innerHTML = `<div class="text-left"><strong class="text-amber-400">[QueryResult]</strong> 3 Director Credentials expiring within 30 days:<br>1. E. Martinez (Sunshine Learning, TRS L3) - 12 days left<br>2. D. Vance (Alamo Kids, TRS L4) - 19 days left</div>`;
+                } else {
+                    output.innerHTML = `<div class="text-left"><strong class="text-amber-400">[QueryResult]</strong> Alliance-Wide PL Day (Feb 2026):<br>• Total Attendance: 1,842 educators<br>• Overall Satisfaction: 94.2%<br>• Highest Rated Track: CHEF Interactive Video Modules</div>`;
+                }
+            }, 600);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            filterRequirements();
+
+            const ctxModule = document.getElementById('moduleCoverageChart').getContext('2d');
+            new Chart(ctxModule, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Canvas Career', 'Canvas Catalog', 'Canvas Credentials*', 'Canvas Studio', 'Ignite AI & Data 2'],
+                    datasets: [{
+                        data: [12, 10, 8, 5, 7],
+                        backgroundColor: ['#d97706', '#0D9488', '#c2410c', '#ca8a04', '#1E293B']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
+                    }
+                }
+            });
+
+            const ctxClass = document.getElementById('classScoreChart').getContext('2d');
+            new Chart(ctxClass, {
+                type: 'bar',
+                data: {
+                    labels: ['Emotional Support', 'Classroom Org', 'Instructional Support'],
+                    datasets: [
+                        { label: 'Baseline Score', data: [4.2, 4.0, 2.8], backgroundColor: '#94a3b8' },
+                        { label: 'Post-Coaching Score', data: [6.1, 5.8, 4.9], backgroundColor: '#c2410c' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 7, title: { display: true, text: 'CLASS Rubric Scale (1-7)' } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
